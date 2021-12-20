@@ -1,0 +1,76 @@
+@import "varibale";
+
+body{
+    background-color: $white;
+    background-image: url($bgPattern);
+    font-family: $abel;
+    color: $red;
+}
+#startGame {
+    position: absolute;
+    top: 70%;
+    left: 50%;
+    margin-left: -70px;
+    display: inline-block;
+    background-color: $yellow;
+    padding: 15px 40px;
+    border: none;
+    border-radius: 30px;
+    font-size: 20px;
+    text-decoration: none;
+    text-transform: uppercase;
+    color: $red;
+
+    box-shadow: 0 3px 0 $red;
+    cursor: pointer;
+    transition: all 100ms linear;
+    &:hover {
+        @include transform(translateY(-4px));
+        box-shadow: 0 7px 0 $red;
+    }
+    &:focus { outline: 0; }
+}
+
+#role{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin-top: -100px;
+    margin-left: -140px;
+}
+
+#prev,
+#next {
+  position: absolute;
+  width: 4rem;
+  cursor: pointer;
+  opacity: .2;
+  -webkit-transition: all .3s ease;
+  transition: all .3s ease;
+}
+
+@media only screen and (max-width: 650px) {
+  #prev,
+  #next {
+    display: none;
+  }
+}
+
+#prev:hover,
+#next:hover {
+  opacity: 1;
+}
+
+#prev {
+  top: 50%;
+  left: 2%;
+  -webkit-transform: translateY(-50%);
+          transform: translateY(-50%);
+}
+
+#next {
+  top: 50%;
+  right: 2%;
+  -webkit-transform: translateY(-50%);
+          transform: translateY(-50%);
+}
