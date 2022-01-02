@@ -1,7 +1,8 @@
 <!doctype html>
 <html>
     <head>
-        <meta charset="utf-8">
+        c
+        <!--------------------->
         <title>網程期末專案</title>
         <style>
             body {
@@ -59,32 +60,58 @@
             position: relative;
             overflow: hidden;
             }
+
+            .modal-content{
+                /* background-color: #e55; */
+                font-size: larger;
+                color: black;
+            }
+            
+            .direction{
+                width: 50px;
+                height: 50px;
+                position: relative;
+                float: right;
+            }
+            .btn{
+                width: 90px;
+                position: absolute;
+                top: 30px;
+                left: 10px;
+            }
         </style>
     </head>
     <body>
         <h2>闖關遊戲</h2>
-
+            <div class="container">
+                <div class="btn-group">
+                    <button type="button" class="btn btn-outline-light" onclick="restart()">restart</button>
+                    <button type="button" class="btn btn-outline-light" onclick="nextLevel()">nextLevel</button>
+                </div>
+             </div>
         <script>
-            import {
-                ARROW_UP,
-                ARROW_DOWN,
-                ARROW_LEFT,
-                ARROW_RIGHT,
-            }from 'VirtualKeyboard'
-            const VirtualKeyboard = ({ handleOnClick }) => ( //新增命名為 <VirtualKeyboard /> 的元件
-            //在元件裡面新增四個分別為上下左右的 div tag    
-            <StyledVirtualKeyboard> 
-                    <div> 
-                        <div data-code={ARROW_UP}>上</div>
-                    </div>
-                    <div className="virtual-keyboard__wrapper-bottom">
-                        <div data-code={ARROW_LEFT}>左</div>
-                        <div data-code={ARROW_DOWN}>下</div>
-                        <div data-code={ARROW_RIGHT}>右</div>
-                    </div>
-            </StyledVirtualKeyboard>
-            );
-            
+            /*----------------------虛擬鍵盤失敗------------------*/
+            // import {
+            //     ARROW_UP,
+            //     ARROW_DOWN,
+            //     ARROW_LEFT,
+            //     ARROW_RIGHT,
+            // }from 'VirtualKeyboard'
+            // const VirtualKeyboard = ({ handleOnClick }) => ( //新增命名為 <VirtualKeyboard /> 的元件
+            // //在元件裡面新增四個分別為上下左右的 div tag    
+            // <StyledVirtualKeyboard> 
+            //         <div> 
+            //             <div data-code={ARROW_UP}>上</div>
+            //         </div>
+            //         <div className="virtual-keyboard__wrapper-bottom">
+            //             <div data-code={ARROW_LEFT}>左</div>
+            //             <div data-code={ARROW_DOWN}>下</div>
+            //             <div data-code={ARROW_RIGHT}>右</div>
+            //         </div>
+            // </StyledVirtualKeyboard>
+            // );
+            /*-----------------------------------------------------*/
+
             //關卡陣列
             var LEVELS = [
                 ["                                                                                   ",
@@ -429,6 +456,7 @@
                         if (fieldType) return fieldType;
                     }
                 }
+                
             };
 
             Level.prototype.actorAt = function(actor) {
@@ -513,7 +541,7 @@
                 }
             };
 
-            Player.prototype.act = function(step, level, keys) {
+            Player.prototype.act = function(step, level, keys) { //設定player的移動
                 this.moveX(step, level, keys);
                 this.moveY(step, level, keys);
 
@@ -528,6 +556,7 @@
                 }
             };
 
+            
             //設定若player碰到障礙物後的判斷
             Level.prototype.playerTouched = function(type, actor) {
                 if (type == "lava" && this.status == null) { //若碰到lava
@@ -601,9 +630,9 @@
             }
 
             function runGame(plans, Display) { 
-                function startLevel(n) {//每一次死掉都從目前所在的level開始
+                function startLevel(n) {
                     runLevel(new Level(plans[n]), Display, function(status) {
-                        if (status == "lost"){
+                        if (status == "lost"){ //每一次死掉都從目前所在的level開始
                             startLevel(n);
                             alert("Restart! Please try again");}
                         else if (n < plans.length - 1)
@@ -614,8 +643,49 @@
                 }
                 startLevel(0);
             }
+            function restart(){
+                function startLevel(n) {
+                    runLevel(new Level(plans[n]), Display, function(status) {
+                        //每一次死掉都從目前所在的level開始
+                        status = "lost"
+                        startLevel(n);
+                        alert("Restart! Please try again");
+                        
+                    });
+                }
+            }
+            function nextLevel(n){
+                function startLevel(n) {
+                    runLevel(new Level(plans[n]), Display, function(status) {
+                        //每一次死掉都從目前所在的level開始
+                        status = "won"
+                        startLevel(n + 1);
+                        
+                    });
+                }
+
+            }
 
             runGame(LEVELS, DOMDisplay);
         </script>
+   
+        <div>
+            <img src="up.jpg" class="direction" style="right: 25px;" onclick="click()">
+            <br>
+        </div>
+        <div>
+            <br>
+            <br>
+            <img src="right.jpg" class="direction" onclick="click()">
+            <img src="left.jpg" class="direction" onclick="click()">
+            <br>
+        </div>
+        <div>
+            <br>
+            <br>
+            <img src="down.jpg" class="direction" style="right: 25px;" onclick="click()">
+            <br>
+        </div>
+        
     </body>
 </html>
